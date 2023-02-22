@@ -2,32 +2,24 @@ import {useState} from 'react';
 
 import FileTree from "../../../data/image_meta.json"
 
-/*export const Album = ({
-    files
-}: AlbumsProps) => {
-    return (<>
-        <div>{files.file} - {files.type}</div>
-    </>);
-}*/
-
-const ALBUM_PATH = "/images"; // Where is the /public album directory stored
+import {getAlbumPath} from "./Albums.functions";
 
 type AlbumsProps = {
-    OnImageClick: (imagePath: string) => void;
+    //OnImageClick: (imagePath: string) => void;
+    OnImageClick?: (albumList: any) => void;
+    startAlbumList?: any;
 };
 
 export const Albums = ({
-    OnImageClick
+    OnImageClick,
+    startAlbumList
 }: AlbumsProps) => {
 
-    const [pastAlbumList, setPastAlbumList] = useState([]);
+    const [pastAlbumList, setPastAlbumList] = useState(((startAlbumList === undefined) ? [] : startAlbumList));
     const album = pastAlbumList[pastAlbumList.length-1];
 
     // Build the album images path
-    let albumPath = ALBUM_PATH + "/";
-    for (let i = 0; i < pastAlbumList.length; i++) {
-        albumPath += pastAlbumList[i].file + "/"
-    }
+    let albumPath = getAlbumPath(pastAlbumList);
 
     // Either the root directory or a sub directory
     let albumList = (album == null) ? FileTree.files.tree : album.subTree;
@@ -44,7 +36,7 @@ export const Albums = ({
         <div>
             {(album != null) /* Album Name */
                 ? <>
-                    <div>Album: {album.file}</div><br />
+                    <h2>Album: {album.file}</h2><br />
 
                     <button onClick={() => { /* Back Button */
                         let newAlbumList = pastAlbumList.concat();
@@ -66,7 +58,7 @@ export const Albums = ({
 
             <div><br />
                 {(albumHasSubs) /* List sub albums */
-                    ? <><div>Albums:</div><br /></>
+                    ? <><h3>Albums:</h3><br /></>
                     : null
                 }
                 {albumList.map((file, key) => (
@@ -84,7 +76,7 @@ export const Albums = ({
                 {albumList.map((file, key) => (
                     ((file.type === "image")
                         ? <>
-                            <a href={`${albumPath}/${file.file}`} onClick={() => {OnImageClick(`${albumPath}/${file.file}`)}}><img src={`${albumPath}/${file.file}`} width={"30%"} /></a>&nbsp;&nbsp;
+                            <a onClick={() => {OnImageClick(pastAlbumList.concat(file));}}><img src={`${albumPath}/${file.file}`} width={"30%"} /></a>&nbsp;&nbsp;
                         </>
                         :
                         null
