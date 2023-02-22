@@ -1,0 +1,90 @@
+{
+  "files": {
+    "dir": "images",
+    "tree": [
+      {
+        "file": "Mexico",
+        "type": "dir",
+        "subTree": [
+          {
+            "file": "Mexico City",
+            "type": "dir",
+            "subTree": [
+              {
+                "file": "Teotihuacan",
+                "type": "dir",
+                "subTree": [
+                  {
+                    "file": "IMG_20230212_140045.jpg",
+                    "type": "image"
+                  },
+                  {
+                    "file": "IMG_20230212_142520.jpg",
+                    "type": "image"
+                  },
+                  {
+                    "file": "IMG_20230212_142855.jpg",
+                    "type": "image"
+                  },
+                  {
+                    "file": "IMG_20230212_145608.jpg",
+                    "type": "image"
+                  },
+                  {
+                    "file": "IMG_20230212_145754.jpg",
+                    "type": "image"
+                  },
+                  {
+                    "file": "IMG_20230212_152401.jpg",
+                    "type": "image"
+                  },
+                  {
+                    "file": "IMG_20230212_152547.jpg",
+                    "type": "image"
+                  },
+                  {
+                    "file": "IMG_20230212_152737.jpg",
+                    "type": "image"
+                  },
+                  {
+                    "file": "IMG_20230212_160141.jpg",
+                    "type": "image"
+                  },
+                  {
+                    "file": "IMG_20230212_161504.jpg",
+                    "type": "image"
+                  },
+                  {
+                    "file": "IMG_20230212_161753.jpg",
+                    "type": "image"
+                  },
+                  {
+                    "file": "IMG_20230212_164817.jpg",
+                    "type": "image"
+                  },
+                  {
+                    "file": "IMG_20230212_164911.jpg",
+                    "type": "image"
+                  },
+                  {
+                    "file": "IMG_20230212_165740.jpg",
+                    "type": "image"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "file": "Monterrey",
+            "type": "dir",
+            "subTree": []
+          },
+          {
+            "file": "info.json",
+            "type": "json"
+          }
+        ]
+      }
+    ]
+  }
+}
