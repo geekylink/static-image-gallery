@@ -2,7 +2,7 @@ import {useState} from 'react';
 
 import FileTree from "../../../data/image_meta.json"
 
-import {getAlbumPath} from "./Albums.functions";
+import {getAlbumPath, getAlbumData} from "./Albums.functions";
 
 //import {ButtonBar} from "../";
 
@@ -11,15 +11,21 @@ type AlbumsProps = {
     OnImageClick?: (albumList: any) => void;
     OnAlbumClick?: (file: any) => void;
     albumList: any;
+    albumData?: any;
 };
 
 export const Albums = ({
     OnImageClick = () => {},
     OnAlbumClick = () => {},
-    albumList
+    albumList,
+    albumData
 }: AlbumsProps) => {
 
     const album = albumList[albumList.length-1];
+
+    //const [albumData, setAlbumData] = useState({});
+    console.log("log");
+    console.log(albumData);
 
     // Build the album images path
     let albumPath = getAlbumPath(albumList);
@@ -29,8 +35,8 @@ export const Albums = ({
 
     // Does this album have sub albums?
     let albumHasSubs = false;
-    albumTree.forEach((album) => {
-        if (album.type === "dir") {
+    albumTree.forEach((file) => {
+        if (file.type === "dir") {
             albumHasSubs = true;
         }
     });
@@ -40,6 +46,16 @@ export const Albums = ({
             <div>
                 {(albumHasSubs) /* List sub albums */
                     ? <><h3>Albums:</h3><br /></>
+                    : null
+                }
+                {(albumData != undefined && albumData.description != undefined) 
+                    ?
+                    <>{albumData.description}<br /><br /></>
+                    : null
+                }
+                {(albumData != undefined && albumData.lat != undefined && albumData.lon != undefined) 
+                    ?
+                    <>{albumData.lat}, {albumData.lon}<br /><br /></>
                     : null
                 }
                 {albumTree.map((file, key) => (
