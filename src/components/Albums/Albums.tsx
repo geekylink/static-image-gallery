@@ -35,7 +35,7 @@ export const Albums = ({
 
     // Does this album have sub albums?
     let albumHasSubs = false;
-    albumTree.forEach((file) => {
+    albumTree.forEach((file: any) => {
         if (file.type === "dir") {
             albumHasSubs = true;
         }
@@ -53,7 +53,7 @@ export const Albums = ({
                     <>{albumData.description}<br /><br /></>
                     : null
                 }
-                {albumTree.map((file, key) => (
+                {albumTree.map((file: any, key: any) => (
                     ((file.type === "dir") 
                         ? <button onClick={() => {
                             OnAlbumClick(file);
@@ -65,7 +65,7 @@ export const Albums = ({
             </div>
             
             <div>
-                {albumTree.map((file, key) => (
+                {albumTree.map((file: any, key: any) => (
                     ((file.type === "image")
                         ? <>
                             <a onClick={() => {OnImageClick(albumList.concat(file));}}><img src={`${albumPath}/${file.file}`} width={"30%"} /></a>&nbsp;&nbsp;

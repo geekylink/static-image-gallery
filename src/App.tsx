@@ -16,10 +16,10 @@ function App() {
 
   const [imagePath, setImagePath] = useState("");
   const [albumList, setAlbumList] = useState([]);
-  const [albumData, setAlbumData] = useState({});
+  const [albumData, setAlbumData] = useState<any>({});
 
-  const album = albumList[albumList.length-1];
-  const albumPath = getAlbumPath(albumList);
+  const album: any = albumList[albumList.length-1];
+  const albumPath: string = getAlbumPath(albumList);
 
   if (albumData[albumPath] === undefined) {
     getAlbumData(albumList, (data: any) => {      
