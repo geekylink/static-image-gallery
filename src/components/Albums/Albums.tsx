@@ -53,11 +53,6 @@ export const Albums = ({
                     <>{albumData.description}<br /><br /></>
                     : null
                 }
-                {(albumData != undefined && albumData.lat != undefined && albumData.lon != undefined) 
-                    ?
-                    <>{albumData.lat}, {albumData.lon}<br /><br /></>
-                    : null
-                }
                 {albumTree.map((file, key) => (
                     ((file.type === "dir") 
                         ? <button onClick={() => {

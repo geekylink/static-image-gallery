@@ -1,10 +1,14 @@
 import { useState } from 'react'
 //import reactLogo from './assets/react.svg'
 import './App.css'
+import "leaflet/dist/leaflet.css";
 
 import { Albums } from "./components";
 
 import {getAlbumPath, getAlbumData} from "./components/Albums/Albums.functions";
+
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+
 
 const GALLERY_TITLE = "Travel Pictures";
 
@@ -24,10 +28,20 @@ function App() {
     });
   }
 
+  let lat = undefined;
+  let lon = undefined;
+
+  if (albumData[albumPath] != undefined && albumData[albumPath].lat != undefined && albumData[albumPath].lon != undefined) {
+    lat = albumData[albumPath].lat;
+    lon = albumData[albumPath].lon;
+  }
+  console.log(lat + "," + lon);
+
   return (
     <div className="App">
       <div>
-        <div>{}
+        <div>
+          
           {(album != null) /* Album Name */
                   ? <>
                       <h2>
@@ -35,7 +49,7 @@ function App() {
                           ? <>Album: {album.file}</>
                           : <>{album.file}</>
                         }
-                      </h2><br />
+                      </h2>
 
                       <button onClick={() => {
                           setImagePath("");
@@ -55,11 +69,31 @@ function App() {
                         }}
                       >
                         Home
-                      </button>
+                      </button><br /><br />
                     </>
                   : <h2>{GALLERY_TITLE}</h2>
           }
         </div>
+
+        {(lat != undefined && lon != undefined)
+        ?
+        <div className="myMapDiv" style={{"width": "100%"}}>
+          <MapContainer center={[lat, lon]} zoom={(albumData != undefined && albumData[albumPath] != undefined && albumData[albumPath].zoom != undefined) ? albumData[albumPath].zoom : 10} scrollWheelZoom={false} 
+                      style={{height: "33vh", "width": "33vw", "margin": "auto"}} >
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <Marker position={[lat, lon]}>
+                <Popup>
+                  {album.file}
+                </Popup>
+              </Marker>
+          </MapContainer><br />
+        </div>
+        : null
+        }
+        
 
         {(imagePath === "") // Display the album viewer
           ? <Albums OnImageClick={(albumList) => {
