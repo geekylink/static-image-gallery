@@ -1,36 +1,33 @@
 import { useState } from 'react'
-//import reactLogo from './assets/react.svg'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+
 import './App.css'
 import "leaflet/dist/leaflet.css";
 
+import { File, AlbumData } from "./types";
 import { Albums } from "./components";
+import { getAlbumPath, getAlbumData } from "./components/Albums/Albums.functions";
 
-import {getAlbumPath, getAlbumData} from "./components/Albums/Albums.functions";
-
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-
-import {File, AlbumData} from "./types";
-
-const GALLERY_TITLE = "Travel Pictures";
+const GALLERY_TITLE = "Travel Photos";
 
 function App() {
 
   const [imagePath, setImagePath] = useState("");
   const [albumList, setAlbumList] = useState<Array<File>>([]);
-  const [albumDataMap, setAlbumData] = useState<Map<string, AlbumData>>();
+  const [albumDataMap, setAlbumData] = useState<Map<string, AlbumData>>(new Map());
 
   const album: File = albumList[albumList.length-1];
   const albumPath: string = getAlbumPath(albumList);
 
-  if (albumDataMap?.has(albumPath)) {
+  if (!albumDataMap.has(albumPath)) {
     getAlbumData(albumList, (data: AlbumData) => {      
       albumDataMap.set(albumPath, data);
       setAlbumData(structuredClone(albumDataMap));
     });
   }
 
-  let lat = albumDataMap?.get(albumPath)?.lat;
-  let lon = albumDataMap?.get(albumPath)?.lon;
+  let lat = (albumDataMap?.has(albumPath)) ? albumDataMap.get(albumPath)?.lat : undefined;
+  let lon = (albumDataMap?.has(albumPath)) ? albumDataMap.get(albumPath)?.lon : undefined;
 
   console.log(lat + "," + lon);
 
