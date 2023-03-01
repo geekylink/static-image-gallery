@@ -9,32 +9,29 @@ import {getAlbumPath, getAlbumData} from "./components/Albums/Albums.functions";
 
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
+import {File, AlbumData} from "./types";
 
 const GALLERY_TITLE = "Travel Pictures";
 
 function App() {
 
   const [imagePath, setImagePath] = useState("");
-  const [albumList, setAlbumList] = useState([]);
-  const [albumData, setAlbumData] = useState<any>({});
+  const [albumList, setAlbumList] = useState<Array<File>>([]);
+  const [albumDataMap, setAlbumData] = useState<Map<string, AlbumData>>();
 
-  const album: any = albumList[albumList.length-1];
+  const album: File = albumList[albumList.length-1];
   const albumPath: string = getAlbumPath(albumList);
 
-  if (albumData[albumPath] === undefined) {
-    getAlbumData(albumList, (data: any) => {      
-      albumData[albumPath] = data;
-      setAlbumData(structuredClone(albumData));
+  if (albumDataMap?.has(albumPath)) {
+    getAlbumData(albumList, (data: AlbumData) => {      
+      albumDataMap.set(albumPath, data);
+      setAlbumData(structuredClone(albumDataMap));
     });
   }
 
-  let lat = undefined;
-  let lon = undefined;
+  let lat = albumDataMap?.get(albumPath)?.lat;
+  let lon = albumDataMap?.get(albumPath)?.lon;
 
-  if (albumData[albumPath] != undefined && albumData[albumPath].lat != undefined && albumData[albumPath].lon != undefined) {
-    lat = albumData[albumPath].lat;
-    lon = albumData[albumPath].lon;
-  }
   console.log(lat + "," + lon);
 
   return (
@@ -78,7 +75,7 @@ function App() {
         {(lat != undefined && lon != undefined)
         ?
         <div className="myMapDiv" style={{"width": "100%"}}>
-          <MapContainer center={[lat, lon]} zoom={(albumData != undefined && albumData[albumPath] != undefined && albumData[albumPath].zoom != undefined) ? albumData[albumPath].zoom : 10} scrollWheelZoom={false} 
+          <MapContainer center={[lat, lon]} zoom={10} scrollWheelZoom={false} 
                       style={{height: "33vh", "width": "33vw", "margin": "auto"}} >
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -100,8 +97,8 @@ function App() {
                 setImagePath(getAlbumPath(albumList));
                 setAlbumList(albumList);
               }} 
-              albumList={albumList} albumData={albumData[albumPath]}
-              OnAlbumClick={(file) => {
+              albumList={albumList} albumData={albumDataMap?.get(albumPath)}
+              OnAlbumClick={(file: File) => {
                 setAlbumList(albumList.concat(file));
               }}
             />

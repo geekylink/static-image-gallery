@@ -1,9 +1,12 @@
-
-const ALBUM_PATH = "/images"; // Where is the /public album directory stored
-
 import FileTree from "../../../data/image_meta.json"
 
-export const getAlbumPath = (albumList: any) => {
+import {File} from "../../types";
+
+
+// Where is the /public album directory stored
+const ALBUM_PATH = "/images"; 
+
+export const getAlbumPath = (albumList: Array<File>) => {
 
     // Build the album images path
     let albumPath = ALBUM_PATH;
