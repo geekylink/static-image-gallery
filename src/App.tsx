@@ -29,8 +29,6 @@ function App() {
   let lat = (albumDataMap?.has(albumPath)) ? albumDataMap.get(albumPath)?.lat : undefined;
   let lon = (albumDataMap?.has(albumPath)) ? albumDataMap.get(albumPath)?.lon : undefined;
 
-  console.log(lat + "," + lon);
-
   return (
     <div className="App">
       <div>
@@ -50,7 +48,6 @@ function App() {
 
                           let newAlbumList = albumList.concat();
                           newAlbumList.pop();
-                          console.log(newAlbumList);
                           setAlbumList(newAlbumList);
                         }}
                       >
